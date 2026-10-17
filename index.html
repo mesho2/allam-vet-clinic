@@ -1,0 +1,139 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Allam Veterinary Clinic</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f8f5;
+            color: #24352b;
+        }
+
+        header {
+            background: #16784a;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        header p {
+            margin: 0;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px #0000000d;
+        }
+
+        .welcome h2 {
+            color: #16784a;
+            margin-top: 0;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #dce9df;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: #16784a;
+        }
+
+        .status {
+            display: inline-block;
+            background: #e0f4e7;
+            color: #16784a;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #66776b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🐾 Allam Veterinary Clinic</h1>
+        <p>نظام إدارة العيادة البيطرية</p>
+    </header>
+
+    <main>
+        <section class="welcome">
+            <span class="status">النظام قيد التجهيز</span>
+
+            <h2>أهلاً بيك في نظام العيادة</h2>
+
+            <p>
+                نظام متكامل لتنظيم بيانات العملاء والحيوانات
+                وتسجيل الحالات الطبية ومتابعة الزيارات.
+            </p>
+        </section>
+
+        <section class="cards">
+            <div class="card">
+                <h3>👥 العملاء</h3>
+                <p>إدارة بيانات أصحاب الحيوانات.</p>
+            </div>
+
+            <div class="card">
+                <h3>🐶 الحيوانات</h3>
+                <p>ملف مستقل لكل حيوان.</p>
+            </div>
+
+            <div class="card">
+                <h3>🩺 الحالات الطبية</h3>
+                <p>تسجيل التشخيص والعلاج.</p>
+            </div>
+
+            <div class="card">
+                <h3>📋 الزيارات</h3>
+                <p>متابعة تاريخ كل زيارة.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Allam Veterinary Clinic © 2026
+    </footer>
+
+</body>
+</html>
+```
