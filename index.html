@@ -41,7 +41,20 @@
 <script>
 const SUPABASE_URL='https://jydptxycpptbgvgpmaoh.supabase.co';
 const SUPABASE_KEY='sb_publishable_BWVDzzvaa7Wl27HpIo8etA_p32nc8FZ';
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+```javascript
+const sb = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: false,
+      storage: window.sessionStorage
+    }
+  }
+);
+```
 const $=id=>document.getElementById(id);
 function msg(el,text,type='error'){el.textContent=text;el.className='message '+type;el.style.display='block'}function clearMsg(el){el.textContent='';el.className='message';el.style.display='none'}
 function setLoggedIn(yes){$('loginView').classList.toggle('hidden',yes);$('appView').classList.toggle('hidden',!yes)}
