@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>المتابعات — Allam Veterinary Clinic</title><link rel="stylesheet" href="styles.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
+<body>
+<button id="themeToggle" class="theme-toggle" type="button" aria-label="تفعيل الوضع الليلي" title="تفعيل الوضع الليلي">☀️</button>
+<div id="loginView" class="login-wrap"><section class="card"><img class="clinic-logo" src="logo.png" alt="Allam Veterinary Clinic logo"><h1>متابعات العيادة</h1><p class="muted">سجّل الدخول لعرض المتابعات المستحقة.</p><div id="loginMessage" class="message"></div><form id="loginForm"><label for="email">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" required><label for="password">كلمة المرور</label><input id="password" type="password" autocomplete="current-password" required><div class="actions"><button class="btn" type="submit">تسجيل الدخول</button></div></form></section></div>
+<div id="appView" class="hidden"><header><div class="header-brand"><img class="header-logo" src="logo.png" alt="شعار Allam Veterinary Clinic"><div><h1>Allam Veterinary Clinic</h1><p>قائمة المتابعات اليومية والمستحقة</p></div></div><nav class="nav"><a href="index.html">الرئيسية</a><a href="search.html">البحث والسجلات</a><a class="active" href="followups.html">المتابعات</a><button id="logoutBtn" type="button">تسجيل الخروج</button></nav></header>
+<main><div id="appMessage" class="message"></div><section class="card"><h2>المتابعات</h2><p class="muted">اختر التاريخ لعرض كل الحالات التي موعد متابعتها في هذا اليوم. المتابعات المتأخرة تظهر عند اختيار «المتأخرة».</p><div class="grid"><div><label for="followDate">تاريخ المتابعة</label><input id="followDate" type="date"></div><div class="actions"><button id="todayBtn" class="btn" type="button">متابعات اليوم</button><button id="tomorrowBtn" class="btn secondary" type="button">متابعات بكرة</button><button id="overdueBtn" class="btn secondary" type="button">المتابعات المتأخرة</button><button id="refreshBtn" class="btn secondary" type="button">تحديث</button></div></div></section>
+<section class="card"><h2 id="listTitle">متابعات اليوم</h2><div id="followResults" class="results"><div class="empty">جارٍ تحميل المتابعات...</div></div></section></main><footer>Allam Veterinary Clinic · المتابعات</footer></div>
+<script>
+const SUPABASE_URL='https://jydptxycpptbgvgpmaoh.supabase.co';const SUPABASE_KEY='sb_publishable_BWVDzzvaa7Wl27HpIo8etA_p32nc8FZ';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storage:window.sessionStorage}});
+const $=id=>document.getElementById(id);
+function msg(el,text,type='error'){el.textContent=text;el.className='message '+type;el.style.display='block'}function clearMsg(el){el.textContent='';el.className='message';el.style.display='none'}function setLoggedIn(yes){$('loginView').classList.toggle('hidden',yes);$('appView').classList.toggle('hidden',!yes)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+(function(){const root=document.documentElement,b=$('themeToggle'),key='allam-vet-theme';let t='light';try{t=localStorage.getItem(key)||'light'}catch(e){}function apply(v){root.dataset.theme=v;b.textContent=v==='dark'?'🌙':'☀️';b.title=v==='dark'?'تفعيل الوضع الفاتح':'تفعيل الوضع الليلي';b.setAttribute('aria-label',b.title)}apply(t==='dark'?'dark':'light');b.onclick=()=>{const n=root.dataset.theme==='dark'?'light':'dark';apply(n);try{localStorage.setItem(key,n)}catch(e){}}})();
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();clearMsg($('loginMessage'));const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){msg($('loginMessage'),'تعذر تسجيل الدخول: '+error.message);return}setLoggedIn(true);loadFollowups()});
+$('logoutBtn').addEventListener('click',async()=>{await sb.auth.signOut({scope:'local'});setLoggedIn(false)});
+sb.auth.getSession().then(({data,error})=>{setLoggedIn(!error&&!!data.session);if(data?.session)loadFollowups()});sb.auth.onAuthStateChange((_event,session)=>{setLoggedIn(!!session);if(session)loadFollowups()});
+function dateLocal(d){const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
+function setDateOffset(n){const d=new Date();d.setDate(d.getDate()+n);$('followDate').value=dateLocal(d);loadFollowups()}
+$('todayBtn').onclick=()=>{setDateOffset(0);$('listTitle').textContent='متابعات اليوم'};
+$('tomorrowBtn').onclick=()=>{setDateOffset(1);$('listTitle').textContent='متابعات بكرة'};
+$('overdueBtn').onclick=async()=>{ $('listTitle').textContent='المتابعات المتأخرة'; await loadFollowups(true)};
+$('refreshBtn').onclick=()=>loadFollowups();$('followDate').addEventListener('change',()=>{$('listTitle').textContent='متابعات يوم '+$('followDate').value;loadFollowups()});
+async function loadFollowups(overdue=false){
+ clearMsg($('appMessage'));const date=$('followDate').value||dateLocal(new Date());if(!$('followDate').value)$('followDate').value=date;
+ $('followResults').innerHTML='<div class="empty">جارٍ تحميل المتابعات...</div>';
+ try{
+  let q=sb.from('clinic_visits').select('id,animal_id,visit_date,visit_type,complaint,diagnosis,follow_up_date,notes,clinic_animals(id,name,species,breed,clinic_owners(full_name,phone))').not('follow_up_date','is',null).order('follow_up_date',{ascending:true});
+  if(overdue)q=q.lt('follow_up_date',date);else q=q.eq('follow_up_date',date);
+  const {data,error}=await q.limit(500);if(error)throw error;
+  const rows=data||[];
+  $('followResults').innerHTML=rows.length?rows.map(v=>`<article class="result"><h3>🐾 ${esc(v.clinic_animals?.name||'حيوان غير معروف')} <span class="pill">${esc(v.visit_type||'كشف جديد')}</span></h3><p><b>المالك:</b> ${esc(v.clinic_animals?.clinic_owners?.full_name||'—')} · <b>الهاتف:</b> ${esc(v.clinic_animals?.clinic_owners?.phone||'—')}</p><p><b>موعد المتابعة:</b> ${esc(v.follow_up_date||'—')}</p>${v.complaint?`<p><b>الشكوى:</b> ${esc(v.complaint)}</p>`:''}${v.diagnosis?`<p><b>التشخيص السابق:</b> ${esc(v.diagnosis)}</p>`:''}${v.notes?`<p><b>ملاحظات:</b> ${esc(v.notes)}</p>`:''}<div class="actions"><a class="btn secondary" href="search.html?animal=${encodeURIComponent(v.animal_id)}">فتح السجل الطبي</a></div></article>`).join(''):'<div class="empty">لا توجد متابعات في هذا الاختيار.</div>';
+ }catch(e){msg($('appMessage'),'تعذر تحميل المتابعات: '+(e.message||e));$('followResults').innerHTML='<div class="empty">تحقق من أسماء الجداول والعلاقات وصلاحيات القراءة في Supabase.</div>'}
+}
+setDateOffset(0);
+</script></body></html>
