@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Allam Veterinary Clinic</title>
+<title>ملخص العيادة — Allam Veterinary Clinic</title>
 <link rel="stylesheet" href="styles.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -16,12 +16,12 @@
 <div class="actions"><button class="btn" type="submit">تسجيل الدخول</button></div></form>
 </section></div>
 <div id="appView" class="hidden">
-<header><div class="topbar"><button id="menuToggle" class="menu-toggle" type="button" aria-label="فتح القائمة">☰</button><div class="header-brand"><img class="header-logo" src="logo.png" alt="شعار Allam Veterinary Clinic"><div><h1>Allam Veterinary Clinic</h1><p>إدارة العيادة</p></div></div><button id="logoutBtn" type="button" class="nav-logout">تسجيل الخروج</button></div></header><div id="sideOverlay" class="side-overlay"></div><aside id="sideNav" class="side-nav"><div class="side-title"><img src="logo.png" alt=""><div><b>Allam Veterinary Clinic</b><div class="muted">القائمة الرئيسية</div></div></div><a class="active" href="index.html">📊 لوحة التحكم</a><a href="owners.html" class="">👥 الملاك والحيوانات</a><a href="visit.html">🩺 تسجيل كشف / متابعة</a><a class="" href="search.html">📁 سجل الزيارات</a><a class="" href="followups.html">📅 المتابعات</a><button type="button" id="sideLogout" class="side-logout">تسجيل الخروج</button></aside>
+<header><div class="topbar"><button id="menuToggle" class="menu-toggle" type="button" aria-label="فتح القائمة">☰</button><div class="header-brand"><img class="header-logo" src="logo.png" alt="شعار Allam Veterinary Clinic"><div><h1>Allam Veterinary Clinic</h1><p>ملخص العيادة</p></div></div><button id="logoutBtn" type="button" class="nav-logout">تسجيل الخروج</button></div></header><div id="sideOverlay" class="side-overlay"></div><aside id="sideNav" class="side-nav"><div class="side-title"><img src="logo.png" alt=""><div><b>Allam Veterinary Clinic</b><div class="muted">القائمة الرئيسية</div></div></div><a class="active" href="index.html">📊 ملخص العيادة</a><a href="owners.html" class="">👥 الملاك والحيوانات</a><a href="visit.html">🩺 تسجيل كشف / متابعة</a><a class="" href="search.html">📁 سجل الزيارات</a><a class="" href="followups.html">📅 المتابعات</a><button type="button" id="sideLogout" class="side-logout">تسجيل الخروج</button></aside>
 <main>
 <div id="appMessage" class="message"></div>
 <section class="card"><h2>ملخص العيادة</h2><div class="stats stat-grid">
 <div class="stat"><div class="stat-icon">👥</div><strong id="ownersCount">—</strong><span>المالكون</span></div><div class="stat"><div class="stat-icon">🐾</div><strong id="animalsCount">—</strong><span>الحيوانات</span></div><div class="stat"><div class="stat-icon">🩺</div><strong id="visitsCount">—</strong><span>إجمالي الكشوفات</span></div><div class="stat"><div class="stat-icon">📅</div><strong id="todayVisitsCount">—</strong><span>كشوفات اليوم</span></div><div class="stat"><div class="stat-icon">⏰</div><strong id="followupsCount">—</strong><span>متابعات مستحقة اليوم</span></div></div></section>
-<section class="card"><h2>ابدأ من بروفايل المالك أو الحيوان</h2><p class="muted">لمنع تكرار ملفات الحيوانات، سجّل بيانات المالك والحيوان مرة واحدة من صفحة «الملاك والحيوانات». بعد ذلك، كل زيارة جديدة تُسجَّل على نفس بروفايل الحيوان وتظهر في تاريخه الطبي.</p><div class="actions"><a class="btn" href="owners.html">👥 فتح ملفات الملاك والحيوانات</a><a class="btn secondary" href="visit.html">🩺 تسجيل كشف / متابعة لحيوان مسجل</a><a class="btn secondary" href="search.html">📁 عرض السجل الطبي والزيارات</a><a class="btn secondary" href="followups.html">📅 متابعة المواعيد المستحقة</a></div></section></main><footer>Allam Veterinary Clinic · بياناتك محفوظة في قاعدة البيانات</footer></div>
+<section class="card"><h2>اختصارات العيادة</h2><p class="muted">اختار الإجراء المطلوب. سجّل الحيوان مرة واحدة، وبعدها أضف كل كشف أو متابعة جديدة على نفس ملفه الطبي.</p><div class="actions"><a class="btn" href="visit.html?type=new">🩺 كشف جديد</a><a class="btn secondary" href="visit.html?type=followup">🔄 متابعة</a><a class="btn secondary" href="owners.html">👥 الملاك والحيوانات</a><a class="btn secondary" href="search.html">📁 السجل الطبي والزيارات</a><a class="btn secondary" href="followups.html">📅 المتابعات المستحقة</a></div></section></main><footer>Allam Veterinary Clinic · بياناتك محفوظة في قاعدة البيانات</footer></div>
 <script>
 const SUPABASE_URL='https://jydptxycpptbgvgpmaoh.supabase.co';
 const SUPABASE_KEY='sb_publishable_BWVDzzvaa7Wl27HpIo8etA_p32nc8FZ';
