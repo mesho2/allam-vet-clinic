@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Allam Veterinary Clinic</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<button id="themeToggle" class="theme-toggle" type="button" aria-label="تفعيل الوضع الليلي" title="تفعيل الوضع الليلي">☀️</button>
+<div id="loginView" class="login-wrap"><section class="card">
+<img class="clinic-logo" src="logo.png" alt="Allam Veterinary Clinic logo"><h1>Allam Veterinary Clinic</h1><p class="muted">سجّل الدخول لإدارة ملفات العيادة</p>
+<div id="loginMessage" class="message"></div>
+<form id="loginForm"><label for="email">البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" required>
+<label for="password">كلمة المرور</label><input id="password" type="password" autocomplete="current-password" required>
+<div class="actions"><button class="btn" type="submit">تسجيل الدخول</button></div></form>
+</section></div>
+<div id="appView" class="hidden">
+<header><div class="topbar"><button id="menuToggle" class="menu-toggle" type="button" aria-label="فتح القائمة">☰</button><div class="header-brand"><img class="header-logo" src="logo.png" alt="شعار Allam Veterinary Clinic"><div><h1>Allam Veterinary Clinic</h1><p>إدارة العيادة</p></div></div><button id="logoutBtn" type="button" class="nav-logout">تسجيل الخروج</button></div></header><div id="sideOverlay" class="side-overlay"></div><aside id="sideNav" class="side-nav"><div class="side-title"><img src="logo.png" alt=""><div><b>Allam Veterinary Clinic</b><div class="muted">القائمة الرئيسية</div></div></div><a class="active" href="index.html">📊 لوحة التحكم</a><a href="owners.html" class="">👥 الملاك والحيوانات</a><a href="visit.html">🩺 تسجيل كشف / متابعة</a><a class="" href="search.html">📁 سجل الزيارات</a><a class="" href="followups.html">📅 المتابعات</a><button type="button" id="sideLogout" class="side-logout">تسجيل الخروج</button></aside>
+<main>
+<div id="appMessage" class="message"></div>
+<section class="card"><h2>ملخص العيادة</h2><div class="stats stat-grid">
+<div class="stat"><div class="stat-icon">👥</div><strong id="ownersCount">—</strong><span>المالكون</span></div><div class="stat"><div class="stat-icon">🐾</div><strong id="animalsCount">—</strong><span>الحيوانات</span></div><div class="stat"><div class="stat-icon">🩺</div><strong id="visitsCount">—</strong><span>إجمالي الكشوفات</span></div><div class="stat"><div class="stat-icon">📅</div><strong id="todayVisitsCount">—</strong><span>كشوفات اليوم</span></div><div class="stat"><div class="stat-icon">⏰</div><strong id="followupsCount">—</strong><span>متابعات مستحقة اليوم</span></div></div></section>
+<section class="card"><h2>ابدأ من بروفايل المالك أو الحيوان</h2><p class="muted">لمنع تكرار ملفات الحيوانات، سجّل بيانات المالك والحيوان مرة واحدة من صفحة «الملاك والحيوانات». بعد ذلك، كل زيارة جديدة تُسجَّل على نفس بروفايل الحيوان وتظهر في تاريخه الطبي.</p><div class="actions"><a class="btn" href="owners.html">👥 فتح ملفات الملاك والحيوانات</a><a class="btn secondary" href="visit.html">🩺 تسجيل كشف / متابعة لحيوان مسجل</a><a class="btn secondary" href="search.html">📁 عرض السجل الطبي والزيارات</a><a class="btn secondary" href="followups.html">📅 متابعة المواعيد المستحقة</a></div></section></main><footer>Allam Veterinary Clinic · بياناتك محفوظة في قاعدة البيانات</footer></div>
+<script>
+const SUPABASE_URL='https://jydptxycpptbgvgpmaoh.supabase.co';
+const SUPABASE_KEY='sb_publishable_BWVDzzvaa7Wl27HpIo8etA_p32nc8FZ';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storage:window.sessionStorage}});
+const $=id=>document.getElementById(id);
+function setupSidebar(){const nav=$('sideNav'),overlay=$('sideOverlay'),toggle=$('menuToggle');if(!nav||!overlay||!toggle)return;const close=()=>{nav.classList.remove('open');overlay.classList.remove('show')};toggle.onclick=()=>{nav.classList.toggle('open');overlay.classList.toggle('show')};overlay.onclick=close;document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});const sideLogout=$('sideLogout');if(sideLogout)sideLogout.onclick=()=>$('logoutBtn').click()}setupSidebar();
+function msg(el,text,type='error'){el.textContent=text;el.className='message '+type;el.style.display='block'}
+function clearMsg(el){el.textContent='';el.className='message';el.style.display='none'}
+function setLoggedIn(yes){$('loginView').classList.toggle('hidden',yes);$('appView').classList.toggle('hidden',!yes)}
+(function(){const root=document.documentElement,button=$('themeToggle'),key='allam-vet-theme';let saved='light';try{saved=localStorage.getItem(key)||'light'}catch(e){}function apply(t){root.dataset.theme=t;button.textContent=t==='dark'?'🌙':'☀️';button.title=t==='dark'?'تفعيل الوضع الفاتح':'تفعيل الوضع الليلي';button.setAttribute('aria-label',button.title)}apply(saved==='dark'?'dark':'light');button.onclick=()=>{const t=root.dataset.theme==='dark'?'light':'dark';apply(t);try{localStorage.setItem(key,t)}catch(e){}}})();
+$('loginForm').addEventListener('submit',async e=>{e.preventDefault();clearMsg($('loginMessage'));const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){msg($('loginMessage'),'تعذر تسجيل الدخول: '+error.message);return}setLoggedIn(true);await refreshStats()});
+$('logoutBtn').addEventListener('click',async()=>{await sb.auth.signOut({scope:'local'});setLoggedIn(false)});
+sb.auth.getSession().then(({data,error})=>{if(error){setLoggedIn(false);return}setLoggedIn(!!data.session);if(data.session)refreshStats()});
+sb.auth.onAuthStateChange((_event,session)=>setLoggedIn(!!session));
+async function refreshStats(){for(const [table,id] of [['clinic_owners','ownersCount'],['clinic_animals','animalsCount'],['clinic_visits','visitsCount']]){const {count,error}=await sb.from(table).select('*',{count:'exact',head:true});$(id).textContent=error?'—':count}const today=new Date();const localDate=`${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;const start=new Date(localDate+'T00:00:00').toISOString(),end=new Date(new Date(localDate+'T00:00:00').getTime()+86400000).toISOString();const [{count:vc,error:ve},{count:fc,error:fe}]=await Promise.all([sb.from('clinic_visits').select('*',{count:'exact',head:true}).gte('visit_date',start).lt('visit_date',end),sb.from('clinic_visits').select('*',{count:'exact',head:true}).eq('follow_up_date',localDate)]);$('todayVisitsCount').textContent=ve?'—':vc;$('followupsCount').textContent=fe?'—':fc}
+</script></body></html>
