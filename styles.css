@@ -98,3 +98,38 @@ html[data-theme="dark"] .pet-profile-avatar,html[data-theme="dark"] .pet-facts>d
 .visit-timeline-card{display:grid;grid-template-columns:1fr;gap:5px}.visit-timeline-card>p{padding:9px 12px;margin:0!important;border-radius:10px;background:var(--bg);line-height:1.65}.visit-timeline-card>p b{display:inline-block;min-width:105px}.visit-timeline-card>ul{margin:4px 0 10px;padding:12px 30px 12px 12px;border-radius:12px;background:var(--bg)}.visit-timeline-card .actions{padding-top:12px;margin-top:7px;border-top:1px solid var(--line)}
 html[data-theme="dark"] .owner-list-icon,html[data-theme="dark"] .count-chip{background:#294735;color:#b3e8c4}html[data-theme="dark"] .search-pet-mini,html[data-theme="dark"] .visit-timeline-card>p,html[data-theme="dark"] .visit-timeline-card>ul{background:#20392a;color:var(--ink)}
 @media(max-width:640px){.owner-list-card{align-items:flex-start;flex-wrap:wrap}.owner-list-card .btn{width:100%;justify-content:center}.search-pet-mini{flex-wrap:wrap}.search-pet-mini>div{min-width:calc(100% - 55px)}.search-pet-mini .btn{flex:1}.search-owner-head{align-items:flex-start}.count-chip{font-size:10px}.owner-card-footer .btn{flex:1}.visit-timeline-card>p b{min-width:0}}
+
+
+/* Layout fix: owner-pets is a wrapper, not a grid column container.
+   The nested pet-grid must receive the full available width. */
+#ownerPets.owner-pets{
+  display:block;
+  width:100%;
+  min-width:0;
+}
+#ownerPets .pet-grid{
+  display:grid;
+  width:100%;
+  min-width:0;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));
+  align-items:stretch;
+  gap:18px;
+}
+#ownerPets .pet-profile-card{
+  width:100%;
+  min-width:0;
+  max-width:none;
+}
+#ownerPets .pet-profile-head,
+#ownerPets .pet-facts,
+#ownerPets .pet-card-actions{
+  min-width:0;
+}
+#ownerPets .pet-facts{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+@media(max-width:520px){
+  #ownerPets .pet-profile-card{padding:14px}
+  #ownerPets .pet-facts{gap:8px}
+  #ownerPets .pet-card-actions{display:grid;grid-template-columns:1fr}
+}
