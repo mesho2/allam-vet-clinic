@@ -22,7 +22,21 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSe
 const $=id=>document.getElementById(id);
 function msg(el,t,type='error'){el.textContent=t;el.className='message '+type;el.style.display='block'}function clearMsg(el){el.textContent='';el.className='message';el.style.display='none'}function setLoggedIn(y){$('loginView').classList.toggle('hidden',y);$('appView').classList.toggle('hidden',!y)}
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function setupSidebar(){const n=$('sideNav'),o=$('sideOverlay');$('menuToggle').onclick=()=>{n.classList.toggle('open');o.classList.toggle('show')};o.onclick=()=>{n.classList.remove('open');o.classList.remove('show')};$('sideLogout').onclick=()=>$('logoutBtn').click()}setupSidebar();
+function setupSidebar(){
+ const nav=$('sideNav'),overlay=$('sideOverlay'),toggle=$('menuToggle');
+ if(!nav||!overlay||!toggle)return;
+ const close=()=>{nav.classList.remove('open');overlay.classList.remove('show');toggle.setAttribute('aria-expanded','false');document.body.classList.remove('nav-open')};
+ const open=()=>{nav.classList.add('open');overlay.classList.add('show');toggle.setAttribute('aria-expanded','true');document.body.classList.add('nav-open')};
+ // Always start closed. Prevent stale/open drawer state from obscuring the page after login/navigation.
+ close();
+ toggle.setAttribute('aria-controls','sideNav');
+ toggle.onclick=()=>nav.classList.contains('open')?close():open();
+ overlay.onclick=close;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+ nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+ const sideLogout=$('sideLogout');if(sideLogout)sideLogout.onclick=()=>{close();$('logoutBtn')?.click()};
+ window.addEventListener('resize',()=>{if(window.innerWidth>760)close()});
+}setupSidebar();
 (function(){const r=document.documentElement,b=$('themeToggle'),k='allam-vet-theme';let t='light';try{t=localStorage.getItem(k)||'light'}catch(e){}function a(v){r.dataset.theme=v;b.textContent=v==='dark'?'🌙':'☀️';b.title=v==='dark'?'تفعيل الوضع الفاتح':'تفعيل الوضع الليلي'}a(t==='dark'?'dark':'light');b.onclick=()=>{const n=r.dataset.theme==='dark'?'light':'dark';a(n);try{localStorage.setItem(k,n)}catch(e){}}})();
 $('loginForm').onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){msg($('loginMessage'),'تعذر تسجيل الدخول: '+error.message);return}setLoggedIn(true);loadAnimals()};
 $('logoutBtn').onclick=async()=>{await sb.auth.signOut({scope:'local'});setLoggedIn(false)};
