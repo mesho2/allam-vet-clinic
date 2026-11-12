@@ -386,3 +386,35 @@ input, select, textarea, button { max-width:100%; }
   .card { padding:14px; }
   .topbar .nav-logout { font-size:11px; padding:8px; }
 }
+
+
+/* Laptop/tablet drawer navigation: keep the sidebar hidden until requested.
+   Permanent sidebar is reserved for wide desktop screens only. */
+@media (min-width: 761px) and (max-width: 1500px) {
+  .side-nav {
+    position: fixed !important; top: 0 !important; right: 0 !important; bottom: 0 !important; left: auto !important;
+    width: min(300px, 82vw) !important; max-width: 300px !important;
+    transform: translateX(110%) !important; z-index: 1500 !important; overflow-y: auto;
+  }
+  .side-nav.open { transform: translateX(0) !important; }
+  .menu-toggle, .dash-menu-toggle { display: inline-flex !important; align-items: center; justify-content: center; }
+  #appView:not(:has(.dashboard-shell)) > header,
+  #appView:not(:has(.dashboard-shell)) > main,
+  #appView:not(:has(.dashboard-shell)) > footer {
+    width: 100% !important; max-width: 100% !important; margin-left: 0 !important; margin-right: 0 !important;
+    box-sizing: border-box;
+  }
+  .dashboard-shell { width: 100% !important; max-width: 100% !important; margin: 0 !important; }
+  .dash-menu-toggle { display: inline-flex !important; }
+  .side-overlay, .side-overlay.show {
+    display: block !important; position: fixed !important; inset: 0 !important; z-index: 1490 !important;
+    background: transparent !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;
+    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  }
+  .side-overlay.show { visibility: visible !important; pointer-events: auto !important; }
+}
+@media (min-width: 1501px) {
+  .side-nav { position: fixed; inset: 0 0 0 auto; width: var(--clinic-sidebar-width); transform: translateX(0) !important; }
+  .menu-toggle, .dash-menu-toggle { display: none !important; }
+  .side-overlay, .side-overlay.show { display: none !important; }
+}

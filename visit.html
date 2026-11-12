@@ -35,7 +35,7 @@ function setupSidebar(){
  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
  const sideLogout=$('sideLogout');if(sideLogout)sideLogout.onclick=()=>{close();$('logoutBtn')?.click()};
- window.addEventListener('resize',()=>{if(window.innerWidth>760)close()});
+ window.addEventListener('resize',()=>{if(window.innerWidth>1500)close()});
 }setupSidebar();
 (function(){const r=document.documentElement,b=$('themeToggle'),k='allam-vet-theme';let t='light';try{t=localStorage.getItem(k)||'light'}catch(e){}function a(v){r.dataset.theme=v;b.textContent=v==='dark'?'🌙':'☀️';b.title=v==='dark'?'تفعيل الوضع الفاتح':'تفعيل الوضع الليلي'}a(t==='dark'?'dark':'light');b.onclick=()=>{const n=r.dataset.theme==='dark'?'light':'dark';a(n);try{localStorage.setItem(k,n)}catch(e){}}})();
 $('loginForm').onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){msg($('loginMessage'),'تعذر تسجيل الدخول: '+error.message);return}setLoggedIn(true);loadAnimals()};

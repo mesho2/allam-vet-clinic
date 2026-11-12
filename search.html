@@ -25,7 +25,7 @@ function setupSidebar(){
  document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
  const sideLogout=$('sideLogout');if(sideLogout)sideLogout.onclick=()=>{close();$('logoutBtn')?.click()};
- window.addEventListener('resize',()=>{if(window.innerWidth>760)close()});
+ window.addEventListener('resize',()=>{if(window.innerWidth>1500)close()});
 }setupSidebar();
 function msg(el,text,type='error'){el.textContent=text;el.className='message '+type;el.style.display='block'}function clearMsg(el){el.textContent='';el.className='message';el.style.display='none'}function setLoggedIn(yes){$('loginView').classList.toggle('hidden',yes);$('appView').classList.toggle('hidden',!yes)}
 let lastSearchTerm='',lastSearchAll=false,currentAnimalId=null;
