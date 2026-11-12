@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>تسجيل حالة — Allam Veterinary Clinic</title><link rel="stylesheet" href="styles.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head>
+<body>
+<button id="themeToggle" class="theme-toggle" type="button">☀️</button>
+<div id="loginView" class="login-wrap"><section class="card"><img class="clinic-logo" src="logo.png" alt="Allam Veterinary Clinic"><h1>تسجيل حالة / زيارة</h1><p class="muted">سجّل الدخول للوصول إلى ملفات العيادة.</p><div id="loginMessage" class="message"></div><form id="loginForm"><label>البريد الإلكتروني</label><input id="email" type="email" autocomplete="username" required><label>كلمة المرور</label><input id="password" type="password" autocomplete="current-password" required><div class="actions"><button class="btn">تسجيل الدخول</button></div></form></section></div>
+<div id="appView" class="hidden">
+<header><div class="topbar"><button id="menuToggle" class="menu-toggle" type="button">☰</button><div class="header-brand"><img class="header-logo" src="logo.png" alt=""><div><h1>Allam Veterinary Clinic</h1><p>تسجيل حالة جديدة أو زيارة لحالة مسجلة — كل شيء في صفحة واحدة</p></div></div><button id="logoutBtn" class="nav-logout" type="button">تسجيل الخروج</button></div></header>
+<div id="sideOverlay" class="side-overlay"></div><aside id="sideNav" class="side-nav"><div class="side-title"><img src="logo.png" alt=""><b>Allam Veterinary Clinic</b></div><a href="index.html">📊 لوحة التحكم</a><a href="owners.html">👥 الملاك والحيوانات</a><a class="active" href="visit.html">🩺 تسجيل حالة / زيارة</a><a href="search.html">📁 سجل الزيارات</a><a href="followups.html">📅 المتابعات</a><button id="sideLogout" class="side-logout" type="button">تسجيل الخروج</button></aside>
+<main><div id="appMessage" class="message"></div>
+<form id="visitForm">
+<section class="card"><h2>1) اختار طريقة التسجيل</h2><div class="grid"><div><label for="recordMode">نوع التسجيل</label><select id="recordMode"><option value="existing">اختيار حالة مسجلة بالفعل</option><option value="new">تسجيل مالك وحيوان جديد</option></select></div><div id="existingWrap"><label for="animalSelect">الحالة المسجلة *</label><select id="animalSelect"><option value="">جارٍ تحميل الحالات...</option></select><p id="animalOwnerInfo" class="muted"></p></div></div>
+<div id="newWrap" class="hidden"><hr><h3>بيانات المالك</h3><div class="grid three"><div><label for="ownerName">اسم المالك *</label><input id="ownerName"></div><div><label for="ownerPhone">رقم الهاتف</label><input id="ownerPhone" inputmode="tel"></div><div><label for="ownerAddress">العنوان</label><input id="ownerAddress"></div></div>
+<hr><h3>بيانات الحيوان</h3><div class="grid three"><div><label for="petName">اسم الحيوان *</label><input id="petName"></div><div><label for="species">النوع *</label><select id="species"><option value="">اختر النوع</option><option>كلب</option><option>قط</option><option>أرنب</option><option>طيور</option><option>ماشية</option><option>أغنام</option><option>ماعز</option><option>حصان</option><option>أخرى</option></select></div><div><label for="breed">السلالة</label><input id="breed"></div><div><label for="sex">الجنس</label><select id="sex"><option value="">غير محدد</option><option>ذكر</option><option>أنثى</option></select></div><div><label for="ageText">العمر</label><input id="ageText" placeholder="مثال: سنة وشهران"></div><div><label for="birthDate">تاريخ الميلاد</label><input id="birthDate" type="date"></div><div><label for="petWeight">الوزن بالكيلو</label><input id="petWeight" type="number" min="0" step="0.01"></div><div><label for="color">اللون</label><input id="color"></div></div><p class="muted">لو رقم الهاتف مسجل قبل كده، هنستخدم ملف المالك الموجود بدل إنشاء ملف مكرر. ولو الحيوان بنفس الاسم والنوع موجود عند نفس المالك، هنوقف التسجيل لتختاره من الحالات المسجلة.</p></div>
+</section>
+<section class="card"><h2>2) بيانات الزيارة</h2><div class="grid three"><div><label for="visitType">نوع الكشف / الخدمة *</label><select id="visitType" required><option value="كشف جديد">كشف جديد</option><option value="متابعة">متابعة</option><option value="تطعيم">تطعيم</option><option value="شاور">شاور</option><option value="حلاقة">حلاقة</option></select></div><div><label for="visitDate">تاريخ ووقت الزيارة *</label><input id="visitDate" type="datetime-local" required></div><div><label for="temperature">درجة الحرارة °C</label><input id="temperature" type="number" min="25" max="45" step="0.1"></div><div><label for="weight">الوزن بالكيلو</label><input id="weight" type="number" min="0" step="0.01"></div><div><label for="followUp">موعد المتابعة</label><input id="followUp" type="date"></div><div class="full"><label for="complaint">الشكوى الرئيسية / الخدمة المطلوبة</label><textarea id="complaint"></textarea></div><div class="full"><label for="history">التاريخ المرضي والأعراض</label><textarea id="history"></textarea></div><div class="full"><label for="examination">الفحص السريري والنتائج</label><textarea id="examination"></textarea></div><div class="full"><label for="diagnosis">التشخيص</label><textarea id="diagnosis"></textarea></div><div class="full"><label for="notes">ملاحظات</label><textarea id="notes"></textarea></div></div></section>
+<section class="card"><h2>3) الأدوية والعلاج</h2><div id="medRows"></div><div class="actions"><button id="addMed" class="btn secondary" type="button">+ إضافة دواء</button></div><div class="actions"><button class="btn" id="saveBtn" type="submit">حفظ الحالة والزيارة</button><button class="btn secondary" id="clearBtn" type="button">تفريغ النموذج</button></div></section>
+</form></main><footer>Allam Veterinary Clinic · تسجيل الحالة والزيارة في صفحة واحدة</footer></div>
+<script>
+const SUPABASE_URL='https://jydptxycpptbgvgpmaoh.supabase.co',SUPABASE_KEY='sb_publishable_BWVDzzvaa7Wl27HpIo8etA_p32nc8FZ';
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false,storage:window.sessionStorage}});
+const $=id=>document.getElementById(id);
+function msg(el,t,type='error'){el.textContent=t;el.className='message '+type;el.style.display='block'}function clearMsg(el){el.textContent='';el.className='message';el.style.display='none'}function setLoggedIn(y){$('loginView').classList.toggle('hidden',y);$('appView').classList.toggle('hidden',!y)}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function setupSidebar(){
+ const nav=$('sideNav'),overlay=$('sideOverlay'),toggle=$('menuToggle');
+ if(!nav||!overlay||!toggle)return;
+ const close=()=>{nav.classList.remove('open');overlay.classList.remove('show');toggle.setAttribute('aria-expanded','false');document.body.classList.remove('nav-open')};
+ const open=()=>{nav.classList.add('open');overlay.classList.add('show');toggle.setAttribute('aria-expanded','true');document.body.classList.add('nav-open')};
+ // Always start closed. Prevent stale/open drawer state from obscuring the page after login/navigation.
+ close();
+ toggle.setAttribute('aria-controls','sideNav');
+ toggle.onclick=()=>nav.classList.contains('open')?close():open();
+ overlay.onclick=close;
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+ nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',close));
+ const sideLogout=$('sideLogout');if(sideLogout)sideLogout.onclick=()=>{close();$('logoutBtn')?.click()};
+ window.addEventListener('resize',()=>{if(window.innerWidth>1500)close()});
+}setupSidebar();
+(function(){const r=document.documentElement,b=$('themeToggle'),k='allam-vet-theme';let t='light';try{t=localStorage.getItem(k)||'light'}catch(e){}function a(v){r.dataset.theme=v;b.textContent=v==='dark'?'🌙':'☀️';b.title=v==='dark'?'تفعيل الوضع الفاتح':'تفعيل الوضع الليلي'}a(t==='dark'?'dark':'light');b.onclick=()=>{const n=r.dataset.theme==='dark'?'light':'dark';a(n);try{localStorage.setItem(k,n)}catch(e){}}})();
+$('loginForm').onsubmit=async e=>{e.preventDefault();const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});if(error){msg($('loginMessage'),'تعذر تسجيل الدخول: '+error.message);return}setLoggedIn(true);loadAnimals()};
+$('logoutBtn').onclick=async()=>{await sb.auth.signOut({scope:'local'});setLoggedIn(false)};
+sb.auth.getSession().then(({data,error})=>{setLoggedIn(!error&&!!data.session);if(data?.session)loadAnimals()});sb.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_OUT')setLoggedIn(false)});
+function nowLocal(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}T${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`}
+$('visitDate').value=nowLocal();let animals=[];
+async function loadAnimals(){try{const {data,error}=await sb.from('clinic_animals').select('id,name,species,breed,owner_id,clinic_owners(full_name,phone)').order('name').limit(3000);if(error)throw error;animals=data||[];$('animalSelect').innerHTML=`<option value="">اختر الحالة المسجلة</option>`+animals.map(a=>`<option value="${esc(a.id)}">${esc(a.name)} — ${esc(a.species||'')} — ${esc(a.clinic_owners?.full_name||'مالك غير معروف')} ${esc(a.clinic_owners?.phone||'')}</option>`).join('');const requested=new URLSearchParams(location.search).get('animal');if(requested&&animals.some(a=>String(a.id)===requested)){$('animalSelect').value=requested;showOwnerInfo()}}catch(e){msg($('appMessage'),'تعذر تحميل الحالات: '+e.message)}}
+function showOwnerInfo(){const a=animals.find(x=>String(x.id)===$('animalSelect').value);$('animalOwnerInfo').textContent=a?`المالك: ${a.clinic_owners?.full_name||'—'} · الهاتف: ${a.clinic_owners?.phone||'—'}`:''}
+$('animalSelect').onchange=showOwnerInfo;
+$('recordMode').onchange=()=>{const isNew=$('recordMode').value==='new';$('newWrap').classList.toggle('hidden',!isNew);$('existingWrap').classList.toggle('hidden',isNew);$('ownerName').required=isNew;$('petName').required=isNew;$('species').required=isNew;$('animalSelect').required=!isNew};
+$('recordMode').dispatchEvent(new Event('change'));
+let medIndex=0;function addMed(){const w=document.createElement('div');w.className='card medication-row';w.innerHTML=`<div class="grid three"><div><label>اسم الدواء</label><input data-f="medication"></div><div><label>الجرعة</label><input data-f="dose" placeholder="مثال: 1 ml"></div><div><label>طريقة الإعطاء</label><input data-f="route"></div><div><label>التكرار</label><input data-f="frequency"></div><div><label>مدة العلاج</label><input data-f="duration"></div><div><label>تعليمات</label><input data-f="instructions"></div></div><div class="actions"><button type="button" class="btn danger">حذف الدواء</button></div>`;w.querySelector('button').onclick=()=>w.remove();$('medRows').appendChild(w)}$('addMed').onclick=addMed;addMed();
+function normPhone(v){return String(v||'').replace(/[^0-9]/g,'').replace(/^0020/,'0').replace(/^20(?=1[0125])/,'0')}
+function normName(v){return String(v||'').trim().toLocaleLowerCase('ar').replace(/[أإآ]/g,'ا').replace(/ى/g,'ي').replace(/\s+/g,' ')}
+async function resolveOrCreateAnimal(){
+ if($('recordMode').value==='existing'){const id=$('animalSelect').value;if(!id)throw new Error('اختار الحالة المسجلة أولًا.');return id}
+ const ownerName=$('ownerName').value.trim(),phone=$('ownerPhone').value.trim();
+ if(!ownerName||!$('petName').value.trim()||!$('species').value)throw new Error('أكمل اسم المالك واسم الحيوان والنوع.');
+ let owner=null;
+ if(normPhone(phone)){const {data,error}=await sb.from('clinic_owners').select('*').limit(2000);if(error)throw error;owner=(data||[]).find(o=>normPhone(o.phone)===normPhone(phone))||null}
+ if(owner){if(!confirm(`رقم الهاتف مسجل بالفعل باسم ${owner.full_name}. سيتم ربط الحيوان بملف هذا المالك. هل تريد المتابعة؟`))throw new Error('تم إلغاء التسجيل.')}
+ else {const {data,error}=await sb.from('clinic_owners').insert({full_name:ownerName,phone:phone||null,address:$('ownerAddress').value.trim()||null}).select().single();if(error)throw error;owner=data}
+ const pet={owner_id:owner.id,name:$('petName').value.trim(),species:$('species').value,breed:$('breed').value.trim()||null,sex:$('sex').value||null,age_text:$('ageText').value.trim()||null,birth_date:$('birthDate').value||null,weight_kg:$('petWeight').value?Number($('petWeight').value):null,color:$('color').value.trim()||null};
+ const {data:existing,error:lookupError}=await sb.from('clinic_animals').select('id,name,species').eq('owner_id',owner.id);if(lookupError)throw lookupError;
+ const duplicate=(existing||[]).find(a=>normName(a.name)===normName(pet.name)&&normName(a.species)===normName(pet.species));
+ if(duplicate)throw new Error(`الحيوان "${duplicate.name}" مسجل بالفعل عند هذا المالك. غيّر طريقة التسجيل إلى «حالة مسجلة» واختره من القائمة لتجنب تكرار البروفايل.`);
+ const {data,error}=await sb.from('clinic_animals').insert(pet).select().single();if(error)throw error;return data.id;
+}
+$('visitForm').onsubmit=async e=>{e.preventDefault();clearMsg($('appMessage'));const btn=$('saveBtn');btn.disabled=true;try{
+ const animalId=await resolveOrCreateAnimal();const date=$('visitDate').value;
+ const visit={animal_id:animalId,visit_type:$('visitType').value,visit_date:date?new Date(date).toISOString():new Date().toISOString(),temperature_c:$('temperature').value?Number($('temperature').value):null,weight_kg:$('weight').value?Number($('weight').value):null,follow_up_date:$('followUp').value||null,complaint:$('complaint').value.trim()||null,history:$('history').value.trim()||null,examination:$('examination').value.trim()||null,diagnosis:$('diagnosis').value.trim()||null,notes:$('notes').value.trim()||null};
+ const {data:v,error}=await sb.from('clinic_visits').insert(visit).select().single();if(error)throw error;
+ const meds=[...$('medRows').querySelectorAll('.medication-row')].map(r=>{const x={};r.querySelectorAll('[data-f]').forEach(el=>x[el.dataset.f]=el.value.trim()||null);return x}).filter(x=>x.medication);
+ if(meds.length){const {error:te}=await sb.from('clinic_treatments').insert(meds.map(m=>({...m,visit_id:v.id})));if(te)throw te}
+ msg($('appMessage'),'تم الحفظ بنجاح وربط الزيارة بملف الحيوان.','success');
+ const selectedMode=$('recordMode').value;$('visitForm').reset();$('recordMode').value=selectedMode;$('recordMode').dispatchEvent(new Event('change'));$('visitDate').value=nowLocal();$('medRows').innerHTML='';addMed();await loadAnimals();$('animalSelect').value=animalId;showOwnerInfo();
+ }catch(e){msg($('appMessage'),'تعذر الحفظ: '+(e.message||e))}finally{btn.disabled=false}};
+$('clearBtn').onclick=()=>{$('visitForm').reset();$('visitDate').value=nowLocal();$('recordMode').dispatchEvent(new Event('change'));$('medRows').innerHTML='';addMed();showOwnerInfo();clearMsg($('appMessage'))};
+</script></body></html>
