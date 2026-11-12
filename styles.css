@@ -302,3 +302,87 @@ body{overflow-x:hidden;}
   body.nav-open main,
   body.nav-open header { filter: none !important; opacity: 1 !important; }
 }
+
+/* ==========================================================
+   FINAL RESPONSIVE LAYOUT — desktop, laptop, tablet and phone
+   Uses the available content width beside the fixed sidebar.
+   ========================================================== */
+:root { --clinic-sidebar-width: 258px; }
+html { width:100%; min-width:320px; }
+body { width:100%; max-width:100%; overflow-x:hidden; }
+#appView { width:100%; max-width:100%; min-width:0; }
+#appView *, .dashboard-shell *, main * { min-width:0; }
+img, svg, video, canvas { max-width:100%; }
+input, select, textarea, button { max-width:100%; }
+
+@media (min-width: 1101px) {
+  .side-nav { position:fixed; inset:0 0 0 auto; width:var(--clinic-sidebar-width); transform:translateX(0); }
+  #appView:not(:has(.dashboard-shell)) > header,
+  #appView:not(:has(.dashboard-shell)) > main,
+  #appView:not(:has(.dashboard-shell)) > footer {
+    width:calc(100% - var(--clinic-sidebar-width));
+    max-width:none;
+    margin-right:var(--clinic-sidebar-width);
+    margin-left:0;
+  }
+  #appView:not(:has(.dashboard-shell)) > header { padding:15px clamp(18px,3vw,48px); }
+  #appView:not(:has(.dashboard-shell)) > main { padding-left:clamp(16px,2.5vw,40px); padding-right:clamp(16px,2.5vw,40px); }
+  .dashboard-shell { width:calc(100% - var(--clinic-sidebar-width)); margin:0 var(--clinic-sidebar-width) 0 0; }
+  .dash-menu-toggle, .topbar .menu-toggle { display:none !important; }
+  .side-overlay { display:none !important; }
+}
+
+/* Compact laptop and tablet: drawer navigation, full-width content */
+@media (min-width:761px) and (max-width:1100px) {
+  .side-nav { width:min(300px,82vw); transform:translateX(110%); }
+  .side-nav.open { transform:translateX(0); }
+  .side-overlay { display:block; position:fixed; inset:0; z-index:1190; opacity:0; visibility:hidden; pointer-events:none; background:transparent; }
+  .side-overlay.show { opacity:1; visibility:visible; pointer-events:auto; }
+  .menu-toggle, .dash-menu-toggle { display:inline-flex !important; align-items:center; justify-content:center; }
+  #appView:not(:has(.dashboard-shell)) > header,
+  #appView:not(:has(.dashboard-shell)) > main,
+  #appView:not(:has(.dashboard-shell)) > footer { width:100%; max-width:100%; margin:0 auto; }
+  .dashboard-shell { width:100%; margin:0; }
+  .grid.three { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+
+/* All phone layouts are portrait-first; no fixed desktop widths */
+@media (max-width:760px) {
+  html, body { width:100%; min-width:320px; overflow-x:hidden !important; }
+  #appView { width:100%; min-width:0; overflow-x:hidden; }
+  #appView:not(:has(.dashboard-shell)) > header,
+  #appView:not(:has(.dashboard-shell)) > main,
+  #appView:not(:has(.dashboard-shell)) > footer { width:100%; max-width:100%; margin:0; }
+  header { padding:12px !important; }
+  main, .dashboard-main { width:100% !important; max-width:100% !important; margin:0 auto !important; padding:14px 12px 28px !important; }
+  .topbar { width:100%; flex-wrap:nowrap; gap:8px; }
+  .header-brand { flex:1 1 auto; min-width:0; }
+  .header-brand h1 { font-size:clamp(14px,4vw,19px) !important; }
+  .header-brand p { font-size:11px; }
+  .header-logo { width:44px !important; height:44px !important; }
+  .menu-toggle, .dash-menu-toggle { display:inline-flex !important; flex:0 0 40px; width:40px; height:40px; align-items:center; justify-content:center; }
+  .side-nav { position:fixed !important; top:0 !important; right:0 !important; bottom:0 !important; left:auto !important; width:min(84vw,300px) !important; max-width:300px; transform:translateX(110%) !important; z-index:1500 !important; overflow-y:auto; }
+  .side-nav.open { transform:translateX(0) !important; }
+  /* No blur or dimming layer: the drawer floats above the unchanged page. */
+  .side-overlay, .side-overlay.show { display:none !important; opacity:0 !important; visibility:hidden !important; pointer-events:none !important; backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
+  .dashboard-shell { width:100% !important; margin:0 !important; }
+  .dash-topbar { width:100%; box-sizing:border-box; padding:10px 12px !important; }
+  .dashboard-main { padding:14px 12px 26px !important; }
+  .dashboard-hero, .card, .result, .list-panel { width:100%; max-width:100%; min-width:0; box-sizing:border-box; }
+  .metric-grid, .stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  .quick-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  .dashboard-lists { display:grid; grid-template-columns:minmax(0,1fr) !important; }
+  .grid, .grid.three { grid-template-columns:minmax(0,1fr) !important; }
+  .owner-pets { grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr)); }
+  .results, #ownerResults, #results, #details { width:100%; min-width:0; overflow-wrap:anywhere; }
+  table { display:block; width:100%; max-width:100%; overflow-x:auto; }
+  .actions { gap:8px; }
+  .actions > * { flex:1 1 auto; }
+  body.nav-open { overflow-x:hidden; }
+}
+@media (max-width:420px) {
+  .quick-actions { grid-template-columns:minmax(0,1fr) !important; }
+  .metric-grid, .stats { grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:8px; }
+  .card { padding:14px; }
+  .topbar .nav-logout { font-size:11px; padding:8px; }
+}
