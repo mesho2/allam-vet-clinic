@@ -471,3 +471,21 @@ body.nav-open { overflow: hidden; }
   .header-brand h1 { overflow-wrap: anywhere; }
   .nav-logout { white-space: nowrap; padding: 8px 10px !important; }
 }
+
+/* === Global menu button: explicitly visible on EVERY page and screen === */
+#appView .clinic-global-menu-button {
+  display: inline-flex !important; visibility: visible !important; opacity: 1 !important;
+  align-items: center !important; justify-content: center !important;
+  flex: 0 0 44px !important; width: 44px !important; height: 44px !important;
+  min-width: 44px !important; padding: 0 !important; margin: 0 0 0 10px !important;
+  border: 1px solid rgba(31, 128, 83, .24) !important; border-radius: 12px !important;
+  background: #fff !important; color: #176b46 !important;
+  font-size: 25px !important; line-height: 1 !important; cursor: pointer !important;
+  position: relative !important; z-index: 1700 !important;
+}
+#appView .topbar, #appView .dash-topbar { display: flex; align-items: center; }
+#appView .side-nav { transform: translateX(110%) !important; }
+#appView .side-nav.open { transform: translateX(0) !important; }
+@media (min-width: 1501px) {
+  #appView .clinic-global-menu-button { display: inline-flex !important; }
+}
