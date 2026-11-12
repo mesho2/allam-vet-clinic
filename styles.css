@@ -279,3 +279,26 @@ body{overflow-x:hidden;}
   .dash-topbar .nav-logout,.topbar .nav-logout{font-size:10px;padding:7px 8px;white-space:nowrap;}
   .dashboard-main,main{padding-left:9px!important;padding-right:9px!important;}
 }
+
+/* FIX: Never blur or dim the page when the mobile menu is opened.
+   The drawer itself remains visible; the backdrop is intentionally disabled. */
+.side-overlay,
+.side-overlay.show {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+}
+@media (max-width: 760px) {
+  .side-nav { z-index: 1500 !important; }
+  .side-nav.open { transform: translateX(0) !important; }
+  body.nav-open { overflow: hidden; }
+  body.nav-open #appView,
+  body.nav-open .dashboard-shell,
+  body.nav-open main,
+  body.nav-open header { filter: none !important; opacity: 1 !important; }
+}
